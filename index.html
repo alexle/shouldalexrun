@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+   <title>ShouldAlexRun</title>
+
+   <style type="text/css">
+      article {
+         margin: auto;
+         width: 30em;
+      }
+   </style>
+</head>
+
+<body>
+   <article>
+   <canvas id="icon" class="{{ CurrentData.icon }}" width="160" height="160"></canvas><br>
+   
+   {{ CurrentData.summary }}<br>
+   {{ CurrentData.temperature }} degrees<br>
+   {{ CurrentData.wind_speed }} wind speed<br>
+   {{ CurrentData.precip_prob }} chance of rain<br>
+   {{ CurrentData.precip_intensity }}
+   {{ CurrentData.time }}<br>
+   {{ CurrentData.humidity }} humidity<br>
+
+   </article>
+
+   <!-- SkyCons icon code -->
+   <script src="javascript/skycons.js"></script>
+   <script>
+      var skycons = new Skycons();
+      var icon_name = document.getElementById('icon').className;
+
+      switch (icon_name)
+      {
+         case "clear-day":
+            skycons.add("icon", Skycons.CLEAR_DAY);
+            break;
+
+         case "clear-night":
+            skycons.add("icon", Skycons.CLEAR_NIGHT);
+            break;
+
+         case "partly-cloudy-day":
+            skycons.add("icon", Skycons.PARTLY_CLOUDY_DAY);
+            break;
+
+         case "partly-cloudy-night":
+            skycons.add("icon", Skycons.PARTLY_CLOUDY_NIGHT);
+            break;
+
+         case "cloudy":
+            skycons.add("icon", Skycons.CLOUDY);
+            break;
+
+         case "rain":
+            skycons.add("icon", Skycons.RAIN);
+            break;
+
+         case "sleet":
+            skycons.add("icon", Skycons.SLEET);
+            break;
+
+         case "snow":
+            skycons.add("icon", Skycons.SNOW);
+            break;
+
+         case "wind":
+            skycons.add("icon", Skycons.WIND);
+            break;
+
+         case "fog":
+            skycons.add("icon", Skycons.WIFOGND);
+            break;
+      }
+
+      skycons.play();
+   </script>
+</body>
+</html>
+
