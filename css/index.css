@@ -1,0 +1,58 @@
+body {
+   font: 300 125%/1.5em "Helvetica", "Arial", sans-serif;
+}
+
+header, article, footer {
+   margin: auto;
+   width: 30em;
+   margin-bottom: 40px;
+}
+
+footer {
+   border-top: 1px solid #DDD;
+}
+
+#current_wrapper {
+   height: 120px;
+}
+
+#current_left {
+   float: left;
+}
+#current_mid, #current_right {
+   float: left;
+   padding-left: 22px;
+}
+#current_temp {
+   font-size: 5em;
+   height: 90px;
+   line-height: 90px;
+}
+#current_summary {
+   height: 30px;
+}
+
+.table {
+   display:table;
+}
+.tr {
+   display:table-row;
+}
+.td {
+   display:table-cell;
+   width: 6.4em;
+}
+
+#daily {
+}
+
+.day {
+   border-top: 1px solid black;
+   padding-top: 20px;
+   padding-bottom: 20px;
+}
+
+.clear {
+   clear: both;
+}
+
