@@ -50,7 +50,9 @@ function AddIconToId( ID, IconName )
 
 function LoadSkyCon()
 {
-   var IconIds = ["curr", "day1", "day2", "day3", "day4", "day5"]
+   //var IconIds = ["curr", "day1", "day2", "day3", "day4", "day5"]
+   var IconIds = ["curr", "hour1", "hour2", "hour3", "hour4", "hour5", "hour6",
+                  "hour7", "hour8", "hour9", "hour10", "hour11", "hour12"]
 
    for (i = 0; i < IconIds.length; i++)
    {

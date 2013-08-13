@@ -1,37 +1,16 @@
 body {
    font: 300 125%/1.5em "Helvetica", "Arial", sans-serif;
 }
-
 header, article, footer {
    margin: auto;
    width: 30em;
    margin-bottom: 40px;
 }
-
 footer {
-   border-top: 1px solid #DDD;
+   border-top: 1px solid #777;
 }
 
-#current_wrapper {
-   height: 120px;
-}
-
-#current_left {
-   float: left;
-}
-#current_mid, #current_right {
-   float: left;
-   padding-left: 22px;
-}
-#current_temp {
-   font-size: 5em;
-   height: 90px;
-   line-height: 90px;
-}
-#current_summary {
-   height: 30px;
-}
-
+/* Table styles */
 .table {
    display:table;
 }
@@ -40,19 +19,65 @@ footer {
 }
 .td {
    display:table-cell;
-   width: 6.4em;
+   width: 5em;
+   vertical-align: top;
+   text-align: center
+}
+.clear {
+   clear: both;
 }
 
-#daily {
+/* Current styles */
+#current_wrapper {
+   height: 120px;
 }
 
+.current_left {
+   float: left;
+}
+.current_mid, .current_right {
+   float: left;
+   padding-left: 22px;
+}
+.current_temp {
+   font-size: 5em;
+   height: 90px;
+   line-height: 90px;
+}
+.current_summary {
+   height: 30px;
+}
+.current_to_hour_space {
+   height: 2em;
+}
+
+/* Hour styles */
+#hour_wrapper {
+}
+.hour_header {
+}
+.hourly {
+   border-top: 1px solid #777;
+   padding-top: 2.5em;
+}
+.hour_summary {
+}
+.hour_temp {
+}
+.hour_time {
+}
+.hour_icon {
+}
+.hour_wind {
+}
+
+/* Day styles */
 .day {
-   border-top: 1px solid black;
+   border-top: 1px solid #777;
    padding-top: 20px;
    padding-bottom: 20px;
 }
-
-.clear {
-   clear: both;
+.day_temp {
+   font-size: 2em;
 }
 

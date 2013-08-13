@@ -14,61 +14,86 @@
 
 <body onload="LoadSkyCon()">
    <header>
-   <h2>Should Alex go for a run? {% if Verdict.status == False %}<span style="color:red">{{ Verdict.msg }}{% else %}<span style="color:green">{{ Verdict.msg }}{% endif %}</span></h2>
+   <h2>Should Alex go for a run? {% if CurrentData.status == False %}<span style="color:red">{{ CurrentData.msg }}{% else %}<span style="color:green">{{ CurrentData.msg }}</span>{% endif %}</h2>
    </header>
 
    <article>
-      <div id="current_wrapper">
-         <div id="current_left">
-            <canvas id="curr" class="{{ CurrentData.icon }}" width="120" height="120"></canvas>
-         </div>
-         <div id="current_mid">
-            <div id="current_temp">{{ CurrentData.temperature }}&deg;</div>
-            <div id="current_summary">{{ CurrentData.summary }}</div>
-         </div>
-         <div id="current_right">
-            <div class="table">
-               <div class="tr">
-                  <div class="td">Wind:</div>
-                  <div class="td">{{ CurrentData.wind_speed ~ " mph " ~ CurrentData.wind_bearing }}</div>
-               </div>
-               <div class="tr">
-                  <div class="td">Precipitation:</div>
-                  <div class="td">{{ CurrentData.precip_prob }}% ({{ CurrentData.precip_intensity }} in)</div>
-               </div>
-               <div class="tr">
-                  <div class="td">Humidity:</div>
-                  <div class="td">{{ CurrentData.humidity }}%</div>
-               </div>
-               <div class="tr">
-                  <div class="td">Cloud Cover:</div>
-                  <div class="td">{{ CurrentData.cloud_cover }}%</div>
-               </div>
+   <div id="current_wrapper">
+      <div class="current_left">
+         <canvas id="curr" class="{{ CurrentData.icon }}" width="120" height="120"></canvas>
+      </div>
+      <div class="current_mid">
+         <div class="current_temp">{{ CurrentData.temperature }}&deg;</div>
+         <div class="current_summary">{{ CurrentData.summary }}</div>
+      </div>
+      <div class="current_right">
+         <div class="table">
+            <div class="tr">
+               <div class="td">Precip:</div>
+               <div class="td">{{ CurrentData.precip_prob }}%</div>
+            </div>
+            <div class="tr">
+               <div class="td">Wind:</div>
+               <div class="td">{{ CurrentData.wind_speed ~ " mph " ~ CurrentData.wind_bearing }}</div>
+            </div>
+            <div class="tr">
+               <div class="td">Cloud:</div>
+               <div class="td">{{ CurrentData.cloud_cover }}%</div>
+            </div>
+            <div class="tr">
+               <div class="td">Humid:</div>
+               <div class="td">{{ CurrentData.humidity }}%</div>
             </div>
          </div>
       </div>
+   </div>
 
-      <div class="clear"></div>
+   <div class="clear current_to_hour_space"></div>
+
+   <div class="table">
+      <div class="tr hour_header">
+         <div class="td"></div>
+         <div class="td"></div>
+         <div class="td">Temp<br>(&deg;F)</div>
+         <div class="td">Rain</div>
+         <div class="td">Wind<br>(mph)</div>
+         <div class="td">Cloud</div>
+         <div class="td">Run?</div>
+      </div>
+      {% for hour in HourlyData %}
+      <div class="tr">
+         <div class="td">{{ hour.time }}</div>
+         <div class="td">
+            <canvas id="hour{{ loop.index }}" class="{{ hour.icon }}" width="50" height="50"></canvas>
+         </div>
+         <div class="td hour_temp">{{ hour.temperature }}&deg;</div>
+         <div class="td">{{ hour.precip_prob }}%</div>
+         <div class="td">{{ hour.wind_speed }}</div>
+         <div class="td">{{ hour.cloud_cover }}%</div>
+         <div class="td">{% if hour.status == False %}<span style="color:red">{{ hour.msg }}{% else %}<span style="color:green">{{ hour.msg }}</span>{% endif %}</div>
+      </div>
+      {% endfor %}
+   </div>
    </article>
-
+<!--
    <article>
       <div id="daily">
       {% for day in DailyData %}
          <div class="day">
-            <canvas id="day{{ loop.index }}" class="{{ day.icon }}" width="64" height="64"></canvas>
-            {{ day.time }} {{ day.temp_min }}&deg; - {{ day.temp_max }}&deg; {{ day.precip_prob}}%
+            <span style="font-size: 2em">{{ day.time }}</span>
+            <canvas id="day{{ loop.index }}" class="{{ day.icon }}" width="40" height="40"></canvas>
+            <span class="day_temp">{{ day.temp_max }}&deg;</span> {{ day.temp_min }}&deg; {{ day.precip_prob }}% {{ day.summary }}
          </div>
       {% endfor %}
       </div>
 
-   <!--
       <br>{{ CurrentData.time }}<br>
-   -->
    </article>
 
    <footer>
    About | Contact
    </footer>
+   -->
 
    <!-- Javascript -->
    <script src="javascript/skycons.js"></script>
