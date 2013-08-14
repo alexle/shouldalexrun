@@ -59,8 +59,8 @@
 
    <article>
    <ul class="tabs">
-      <li><a href="#tab1">12 Hours</a></li>
-      <li><a href="#tab2">5 Days</a></li>
+      <li><a href="#tab1">12 Hour</a></li>
+      <li><a href="#tab2">5 Day</a></li>
       <li><a href="#tab3">Menu</a></li>
    </ul>
 
@@ -104,13 +104,10 @@
                   <canvas id="day{{ loop.index }}" class="{{ day.icon }}" width="48" height="48"></canvas>
                </div>
                <div class="td hour_temp">{{ day.temp_max}}&deg;</div>
+               <div class="td hour_temp">{{ day.temp_min}}&deg;</div>
                <div class="td hour_rain">
                   <div class="tr">Rain:</div>
                   <div class="tr">{{ day.precip_prob }}%</div>
-               </div>
-               <div class="td hour_wind">
-                  <div class="tr">Wind:</div>
-                  <div class="tr">{{ day.wind_speed }} mph</div>
                </div>
             </div>
          </div>
@@ -119,7 +116,8 @@
       </div>
       <div id="tab3" class="tab_content">
          <!--Content-->
-         Alex likes to run..
+         <p>Alex likes to run.</p>
+         <p>However, he's very picky and only likes to run when the weather is optimal.</p>
 
          Temperature:
 
@@ -128,30 +126,10 @@
          Wind:
       </div>
    </div>
-   
-   
-
    </article>
-
  
    <footer>
    </footer>
-<!--
-   <article>
-      <div id="daily">
-      {% for day in DailyData %}
-         <div class="day">
-            <span style="font-size: 2em">{{ day.time }}</span>
-            <canvas id="day{{ loop.index }}" class="{{ day.icon }}" width="40" height="40"></canvas>
-            <span class="day_temp">{{ day.temp_max }}&deg;</span> {{ day.temp_min }}&deg; {{ day.precip_prob }}% {{ day.summary }}
-         </div>
-      {% endfor %}
-      </div>
-
-      <br>{{ CurrentData.time }}<br>
-   </article>
-
-   -->
 
    <!-- Javascript -->
    <script src="javascript/skycons.js"></script>

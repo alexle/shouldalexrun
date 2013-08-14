@@ -44,7 +44,7 @@ footer {
    font-size: 4em;
    height: 100px;
    line-height: 100px;
-   padding-left: 0.1em;
+   padding-left: 0.2em;
 }
 .curr_mid {
    text-align: center;
@@ -78,6 +78,8 @@ footer {
 }
 .hour_temp {
    font-size: 2.4em;
+   height: 36px;
+   line-height: 36px;
 }
 
 /* Day styles */
@@ -104,11 +106,7 @@ footer {
    height: 2em;
 }
 
-
-
-
-
-
+/* Tabs style */
 ul.tabs {
  margin: 0;
  padding: 0;
@@ -136,7 +134,7 @@ ul.tabs li a {
  text-decoration: none;
  color: #000;
  display: block;
- padding: 0 20px;
+ padding: 0 16px;
  border: 1px solid #fff; /*--Gives the bevel look with a 1px white border inside the list item--*/
  outline: none;
 }

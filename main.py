@@ -85,7 +85,7 @@ def ParseCurrently(json):
    curr_data.summary = json['currently']['summary']
    curr_data.wind_speed = int(round(json['currently']['windSpeed']))
    curr_data.wind_bearing = CompassDirection[ (int(json['currently']['windBearing'] + 180 + 22) % 360) / 45 ]
-   curr_data.precip_prob = json['currently']['precipProbability'] * 100
+   curr_data.precip_prob = int(round(json['currently']['precipProbability'] * 100))
    curr_data.precip_intensity = json['currently']['precipIntensity']
    curr_data.cloud_cover = int(round(json['currently']['cloudCover'] * 100))
    curr_data.location = json['timezone']
@@ -131,7 +131,6 @@ def ParseHourly(json):
 
       loc_datetime = datetime.fromtimestamp(json['hourly']['data'][i]['time']) + timedelta(hours=int(json['offset'])) 
       hour_entry.time = loc_datetime.strftime('%I%p').lstrip('0').lower()
-      logging.info(json['hourly']['data'][i]['precipProbability'])
 
       HourlyData.append(hour_entry)
 
