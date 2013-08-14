@@ -1,9 +1,8 @@
 import os, sys
-import webapp2, jinja2, logging, json, datetime
+import webapp2, jinja2, logging, json
 from google.appengine.api import urlfetch
 
-from pytz import timezone
-import pytz
+from datetime import datetime, timedelta
 
 jinja_environment = jinja2.Environment(
     loader=jinja2.FileSystemLoader(os.path.dirname(__file__)))
@@ -20,11 +19,10 @@ class CurrentlyData:
    icon = ''
    temperature = ''
    summary = ''
-   wind_speed = ''
    precip_prob = ''
    precip_intensity = '' 
+   wind_speed = ''
    wind_bearing = ''
-   humidity = ''
    cloud_cover = ''
    status = ''
    msg = ''
@@ -43,6 +41,7 @@ class HourlyEntry:
    temperature = ''
    summary = ''
    precip_prob = ''
+   precip_intensity = '' 
    wind_speed = ''
    wind_bearing = ''
    cloud_cover = ''
@@ -51,12 +50,6 @@ class HourlyEntry:
 
 DailyData = []
 HourlyData = []
-
-def CalcTimeZone( naive_date, time_zone ):
-   tz = timezone( time_zone )
-
-   dt = tz.localize( naive_date)
-
 
 def ShouldAlexRun( Entry ):
    if Entry.temperature < 73 and Entry.wind_speed < 10:
@@ -77,56 +70,76 @@ def GetWeatherData( latitude, longitude ):
    data = urlfetch.fetch(full_url, deadline=10).content
    json_data = json.loads(data)
 
+   return json_data
+
+def ParseCurrently(json):
+   curr_data = CurrentlyData()
+
    # Parse Currently structure from json
-   CurrentData.icon = json_data['currently']['icon']
-   CurrentData.temperature = int(round(json_data['currently']['temperature']))
-   CurrentData.summary = json_data['currently']['summary']
-   CurrentData.wind_speed = round(json_data['currently']['windSpeed'] * 10) / 10
-   CurrentData.wind_bearing = CompassDirection[ (int(json_data['currently']['windBearing'] + 180 + 22) % 360) / 45 ]
-   CurrentData.precip_prob = int(round(json_data['currently']['precipProbability'] * 100))
-   CurrentData.precip_intensity = json_data['currently']['precipIntensity']
-   CurrentData.humidity = int(round(json_data['currently']['humidity'] * 100))
-   CurrentData.cloud_cover = int(round(json_data['currently']['cloudCover'] * 100))
-   CurrentData.time = datetime.datetime.fromtimestamp(int(json_data['currently']['time'])).strftime('%a %m-%d %I:%M %p')
+   curr_data.icon = json['currently']['icon']
+   curr_data.temperature = int(round(json['currently']['temperature']))
+   curr_data.summary = json['currently']['summary']
+   curr_data.wind_speed = int(round(json['currently']['windSpeed']))
+   curr_data.wind_bearing = CompassDirection[ (int(json['currently']['windBearing'] + 180 + 22) % 360) / 45 ]
+   curr_data.precip_prob = int(round(json['currently']['precipProbability'] * 100))
+   curr_data.precip_intensity = json['currently']['precipIntensity']
+   curr_data.cloud_cover = int(round(json['currently']['cloudCover'] * 100))
 
-   ShouldAlexRun( CurrentData )
+   loc_datetime = datetime.fromtimestamp(json['currently']['time']) + timedelta(hours=int(json['offset'])) 
+   curr_data.time = loc_datetime.strftime('%a %m-%d %I:%M %p').lstrip('0').lower()
 
+   ShouldAlexRun( curr_data )
+
+   return curr_data
+
+def ParseDaily(json):
    # Parse Daily structure from json
    for i in range(5):
       day_entry = DayEntry()
 
-      day_entry.time = datetime.datetime.fromtimestamp(int(json_data['daily']['data'][i]['time'])).strftime('%a')
-      day_entry.temp_min = int(round(json_data['daily']['data'][i]['temperatureMin']))
-      day_entry.temp_max = int(round(json_data['daily']['data'][i]['temperatureMax']))
-      day_entry.precip_prob= int(round(json_data['daily']['data'][i]['precipProbability'] * 100))
-      day_entry.icon = json_data['daily']['data'][i]['icon']
-      day_entry.summary = json_data['daily']['data'][i]['summary']
+      day_entry.temp_min = int(round(json['daily']['data'][i]['temperatureMin']))
+      day_entry.temp_max = int(round(json['daily']['data'][i]['temperatureMax']))
+      day_entry.precip_prob= int(round(json['daily']['data'][i]['precipProbability'] * 100))
+      day_entry.icon = json['daily']['data'][i]['icon']
+      day_entry.summary = json['daily']['data'][i]['summary']
+
+      loc_datetime = datetime.fromtimestamp(json['daily']['data'][i]['time']) + timedelta(hours=int(json['offset'])) 
+      day_entry.time = loc_datetime.strftime('%a').lstrip('0').lower()
 
       DailyData.append(day_entry)
    
+   return DailyData
+
+def ParseHourly(json):
    # Parse Hourly structure from json
    for i in range(12):
       hour_entry = HourlyEntry()
 
-      hour_entry.icon = json_data['hourly']['data'][i]['icon']
-      hour_entry.summary = json_data['hourly']['data'][i]['summary']
-      hour_entry.time = datetime.datetime.fromtimestamp(int(json_data['hourly']['data'][i]['time'])).strftime('%I %p')
-      hour_entry.temperature = int(round(json_data['hourly']['data'][i]['temperature']))
-      hour_entry.precip_prob= int(round(json_data['hourly']['data'][i]['precipProbability'] * 100))
-      hour_entry.wind_speed = round(json_data['hourly']['data'][i]['windSpeed'] * 10) / 10
-      hour_entry.wind_bearing = CompassDirection[ (int(json_data['hourly']['data'][i]['windBearing'] + 180 + 22) % 360) / 45 ]
-      hour_entry.cloud_cover = int(round(json_data['hourly']['data'][i]['cloudCover'] * 100))
+      hour_entry.icon = json['hourly']['data'][i]['icon']
+      hour_entry.summary = json['hourly']['data'][i]['summary']
+      hour_entry.temperature = int(round(json['hourly']['data'][i]['temperature']))
+      hour_entry.precip_prob= int(round(json['hourly']['data'][i]['precipProbability'] * 100))
+      hour_entry.wind_speed = int(round(json['hourly']['data'][i]['windSpeed']))
+      hour_entry.wind_bearing = CompassDirection[ (int(json['hourly']['data'][i]['windBearing'] + 180 + 22) % 360) / 45 ]
+      hour_entry.cloud_cover = int(round(json['hourly']['data'][i]['cloudCover'] * 100))
+
+      loc_datetime = datetime.fromtimestamp(json['hourly']['data'][i]['time']) + timedelta(hours=int(json['offset'])) 
+      hour_entry.time = loc_datetime.strftime('%I%p').lstrip('0').lower()
 
       HourlyData.append(hour_entry)
 
       ShouldAlexRun( hour_entry )
 
-   return CurrentData, DailyData, HourlyData
+   return HourlyData
 
 class MainHandler(webapp2.RequestHandler):
    def get(self):
 
-      CurrentData, DailyData, HourlyData = GetWeatherData(None, None)
+      json = GetWeatherData(None, None)
+
+      CurrentData = ParseCurrently(json)
+      DailyData = ParseDaily(json)
+      HourlyData = ParseHourly(json)
 
       template_values = {
          'CurrentData': CurrentData,
