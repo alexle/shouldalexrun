@@ -9,7 +9,6 @@ header, article, footer {
    padding-right: 0.6em;
 }
 footer {
-   border-top: 1px solid #777;
 }
 
 /* Table styles */
@@ -19,11 +18,10 @@ footer {
 }
 .tr {
    display: table-row;
-   border: 1px solid #777;
 }
 .td {
    display: table-cell;
-   width: 100px;
+   width: 100px; 
 }
 
 /* Current styles */
@@ -33,7 +31,6 @@ footer {
    display: table;
    margin: 0 auto;
    padding-top: 0.6em;
-   padding-bottom: 0.6em;
 }
 .curr_left {
    float:left;
@@ -50,6 +47,7 @@ footer {
 .curr_mid {
    text-align: center;
    font-size: 1.6em;
+   padding-bottom: 1em;
 }
 .detail_left {
    text-align: left;
@@ -67,25 +65,21 @@ footer {
    padding-top: 0.5em;
    padding-bottom: 0.5em;
 }
-.hour_summary, .hour_temp, .hour_rain, .hour_time {
-   font-size: 1.6em;
-}
-.hour_temp {
-}
-.hour_rain {
+.hour_time, .hour_temp, .hour_rain, .hour_wind, .hour_detail {
+   vertical-align: top;
 }
 .hour_time {
+   width: 20%;
 }
 .hour_icon {
+   width: 20%;
 }
-.hour_wind {
+.hour_temp {
+   font-size: 2.4em;
 }
 
 /* Day styles */
 .day {
-   border-top: 1px solid #777;
-   margin-top: 20px;
-   margin-bottom: 20px;
 }
 .day_temp {
    font-size: 2em;
@@ -97,9 +91,7 @@ footer {
 }
 
 .fail {
-   /*
-   background-color: #FFD6D6;
-   */
+   /*background-color: #FFD6D6;*/
 }
 
 /* Clear styles */

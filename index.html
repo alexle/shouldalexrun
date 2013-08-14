@@ -62,13 +62,19 @@
       {% else %}
       <div class="tr fail">
       {% endif %}
-         <div class="td">{{ hour.time }}</div>
-         <div class="td">
+         <div class="td hour_time">{{ hour.time }}</div>
+         <div class="td hour_icon">
             <canvas id="hour{{ loop.index }}" class="{{ hour.icon }}" width="50" height="50"></canvas>
          </div>
          <div class="td hour_temp">{{ hour.temperature }}&deg;</div>
-         <div class="td ">Rain: {{ hour.precip_prob }}%</div>
-         <div class="td ">Wind: {{ hour.wind_speed }} mph</div>
+         <div class="td hour_rain">
+            <div class="tr">Rain:</div>
+            <div class="tr">{{ hour.precip_prob }}%</div>
+         </div>
+         <div class="td hour_wind">
+            <div class="tr">Wind:</div>
+            <div class="tr">{{ hour.wind_speed }} mph</div>
+         </div>
       </div>
    </div>
    {% endfor %}
