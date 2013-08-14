@@ -26,6 +26,7 @@ class CurrentlyData:
    cloud_cover = ''
    status = ''
    msg = ''
+   location = ''
 
 class DayEntry:
    icon = ''
@@ -84,9 +85,10 @@ def ParseCurrently(json):
    curr_data.precip_prob = int(round(json['currently']['precipProbability'] * 100))
    curr_data.precip_intensity = json['currently']['precipIntensity']
    curr_data.cloud_cover = int(round(json['currently']['cloudCover'] * 100))
+   curr_data.location = json['timezone']
 
    loc_datetime = datetime.fromtimestamp(json['currently']['time']) + timedelta(hours=int(json['offset'])) 
-   curr_data.time = loc_datetime.strftime('%a %m-%d %I:%M %p').lstrip('0').lower()
+   curr_data.time = loc_datetime.strftime('%I:%M%p').lstrip('0').lower()
 
    ShouldAlexRun( curr_data )
 

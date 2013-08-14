@@ -11,6 +11,8 @@
 
    <!-- CSS -->
     <link href="css/index.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Raleway">
+    <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Exo">
 </head>
 
 <body onload="LoadSkyCon()">
@@ -19,101 +21,57 @@
    </header>
 
    <article>
-   <div class="curr_top">
-      <div class="curr_left">
-         <canvas id="curr" class="{{ CurrentData.icon }}" width="100" height="100"></canvas>
+   <div class="curr_wrapper">
+      <div class="table">
+         <div class="tr">
+            <div class="td detail_left">{{ CurrentData.time }}</div>
+            <div class="td detail_right">{{ CurrentData.location }}</div>
+         </div>
       </div>
-      <div class="curr_right">
-         <div class="curr_temp">{{ CurrentData.temperature }}&deg;</div>
+      <div class="curr_top">
+         <div class="curr_left">
+            <canvas id="curr" class="{{ CurrentData.icon }}" width="100" height="100"></canvas>
+         </div>
+         <div class="curr_right">
+            <div class="curr_temp">{{ CurrentData.temperature }}&deg;</div>
+         </div>
       </div>
-   </div>
 
-   <div class="clear"></div>
+      <div class="clear"></div>
 
-   <div class="curr_mid">{{ CurrentData.summary }}</div>
+      <div class="curr_mid">{{ CurrentData.summary }}</div>
 
-   <div class="curr_table">
-      <div class="tr">
-         <div class="curr_td detail_left">Rain: {{ CurrentData.precip_prob }}%</div>
-         <div class="curr_td detail_mid">Wind: {{ CurrentData.wind_speed }} mph</div>
-         <div class="curr_td detail_right">Cloud: {{ CurrentData.cloud_cover }}%</div>
+      <div class="table">
+         <div class="tr">
+            <div class="td detail_left">Rain: {{ CurrentData.precip_prob }}%</div>
+            <div class="td detail_mid">Wind: {{ CurrentData.wind_speed }} mph</div>
+            <div class="td detail_right">Cloud: {{ CurrentData.cloud_cover }}%</div>
+         </div>
       </div>
    </div>
    </article>
 
-   <article>
-<!--
-   <div class="curr_table">
-      <div class="tr">
-         <div class="curr_td curr_detail_left">Rain:</div>
-         <div class="curr_td curr_detail_left" style="width=100%">{{ CurrentData.precip_prob }}%</div>
-         <div class="curr_td curr_detail_right">Cloud:</div>
-         <div class="curr_td curr_detail_right">{{ CurrentData.cloud_cover }}%</div>
-      </div>
-      <div class="tr">
-         <div class="curr_td curr_detail_left">Wind:</div>
-         <div class="curr_td curr_detail_left">{{ CurrentData.wind_speed ~ " mph " ~ CurrentData.wind_bearing }}</div>
-         <div class="curr_td curr_detail_right">Humid:</div>
-         <div class="curr_td curr_detail_right">{{ CurrentData.humidity }}%</div>
-      </div>
-   </div>
-   -->
-
    <div class="clear current_to_hour_space"></div>
 
-   <!--
-   <div id="aaaa">
+   <article>
    <div class="table">
-      <div class="curr_tr">
-      {% for hour in HourlyData %}
-      <div class="td1">
-         <div class="curr_tr">{{ hour.time }}</div>
-         <div class="curr_tr">
-            <canvas id="hour{{ loop.index }}" class="{{ hour.icon }}" width="50" height="50"></canvas>
-         </div>
-         <div class="curr_tr">{{ hour.temperature }}&deg;</div>
-         <div class="curr_tr ">{% if hour.precip_prob > 0 %}{{ hour.precip_prob }}%{% endif %}</div>
-      </div>
-      {% endfor %}
-      </div>
-   </div>
-   </div>
-
-   <div class="table">
-      {% for hour in HourlyData %}
-      <div class="tr">
-         <div class="td hour_time">{{ hour.time }}</div>
-         <div class="td">
-            <canvas id="hour{{ loop.index }}" class="{{ hour.icon }}" width="50" height="50"></canvas>
-         </div>
-         <div class="td hour_temp">{{ hour.temperature }}&deg;</div>
-         <div class="td hour_rain">{% if hour.precip_prob > 0 %}{{ hour.precip_prob }}%{% endif %}</div>
-         <div class="td hour_summary">{% if hour.status == False %}<span style="color:red">{{ hour.msg }}{% else %}<span style="color:green">{{ hour.msg }}</span>{% endif %}</div>
-      </div>
-      {% endfor %}
-   </div>
-   -->
-   <div class="table">
-      <div class="tr hour_header">
-         <div class="td"></div>
-         <div class="td"></div>
-         <div class="td">Temp</div>
-         <div class="td">Rain</div>
-         <div class="td">Wind</div>
-         <div class="td">Run?</div>
-      </div>
-      {% for hour in HourlyData %}
-      <div class="tr">
+   {% for hour in HourlyData %}
+   <div class="hour_wrapper">
+      {% if hour.status == True %}
+      <div class="tr pass">
+      {% else %}
+      <div class="tr fail">
+      {% endif %}
          <div class="td">{{ hour.time }}</div>
          <div class="td">
             <canvas id="hour{{ loop.index }}" class="{{ hour.icon }}" width="50" height="50"></canvas>
          </div>
          <div class="td hour_temp">{{ hour.temperature }}&deg;</div>
-         <div class="td ">{{ hour.precip_prob }}%</div>
-         <div class="td ">{{ hour.wind_speed }} mph</div>
-         <div class="td">{% if hour.status == False %}<span style="color:red">{{ hour.msg }}{% else %}<span style="color:green">{{ hour.msg }}</span>{% endif %}</div>
+         <div class="td ">Rain: {{ hour.precip_prob }}%</div>
+         <div class="td ">Wind: {{ hour.wind_speed }} mph</div>
       </div>
-      {% endfor %}
+   </div>
+   {% endfor %}
    </div>
    </article>
 <!--

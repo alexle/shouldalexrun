@@ -1,5 +1,6 @@
 body {
-   font: 300 125%/1em "Helvetica", "Arial", sans-serif;
+   /*font: 300 125%/1em "Helvetica Neue", "Arial", sans-serif;*/
+   font-family: "Raleway", serif;
 }
 header, article, footer {
    width: 23em;
@@ -18,50 +19,21 @@ footer {
 }
 .tr {
    display: table-row;
+   border: 1px solid #777;
 }
 .td {
    display: table-cell;
-   width: 5em;
-}
-
-/* Table current styles */
-.curr_table {
-   display: table;
-   width: 100%;
-}
-.curr_tr {
-   display: table-row;
-   text-align: center;
-}
-.curr_td {
-   display: table-cell;
-}
-.td1 {
-   display: table-cell;
-   padding-left: 0.5em;
-   padding-right: 0.5em;
-   font-size: 1.3em;
-}
-
-#aaaa {
-overflow-x: scroll;
-overflow-y: hidden;
-
-}
-
-/* Clear styles */
-.clear {
-   clear: both;
-}
-.current_to_hour_space {
-   height: 2em;
+   width: 100px;
 }
 
 /* Current styles */
+.curr_wrapper {
+}
 .curr_top, .curr_mid {
    display: table;
    margin: 0 auto;
-   padding-bottom: 1.2em;
+   padding-top: 0.6em;
+   padding-bottom: 0.6em;
 }
 .curr_left {
    float:left;
@@ -88,19 +60,12 @@ overflow-y: hidden;
 .detail_right {
    text-align: right;
 }
-.curr_detail_img {
-   height: 20px;
-   width: 20px;
-}
 
 /* Hour styles */
-#hour_wrapper {
-}
-.hour_header {
-}
-.hourly {
+.hour_wrapper {
    border-top: 1px solid #777;
-   padding-top: 2.5em;
+   padding-top: 0.5em;
+   padding-bottom: 0.5em;
 }
 .hour_summary, .hour_temp, .hour_rain, .hour_time {
    font-size: 1.6em;
@@ -119,10 +84,30 @@ overflow-y: hidden;
 /* Day styles */
 .day {
    border-top: 1px solid #777;
-   padding-top: 20px;
-   padding-bottom: 20px;
+   margin-top: 20px;
+   margin-bottom: 20px;
 }
 .day_temp {
    font-size: 2em;
 }
+
+/* Pass/Fail styles */
+.pass {
+   background-color: #D6FFD6;
+}
+
+.fail {
+   /*
+   background-color: #FFD6D6;
+   */
+}
+
+/* Clear styles */
+.clear {
+   clear: both;
+}
+.current_to_hour_space {
+   height: 2em;
+}
+
 
