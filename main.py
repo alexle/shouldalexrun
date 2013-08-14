@@ -35,6 +35,7 @@ class DayEntry:
    temp_min = ''
    temp_max = ''
    precip_prob = ''
+   wind_speed = ''
 
 class HourlyEntry:
    time = ''
@@ -52,13 +53,15 @@ class HourlyEntry:
 DailyData = []
 HourlyData = []
 
-def ShouldAlexRun( Entry ):
-   if Entry.temperature < 73 and Entry.wind_speed < 10:
-      Entry.status = True
-      Entry.msg = 'YES'
+def ShouldAlexRun( entry ):
+   mod_temp = entry.temperature - (entry.cloud_cover / 12)
+
+   if mod_temp < 73 and entry.wind_speed < 10:
+      entry.status = True
+      entry.msg = 'YES'
    else:
-      Entry.status = False 
-      Entry.msg = 'NO'
+      entry.status = False 
+      entry.msg = 'NO'
 
 def GetWeatherData( latitude, longitude ):
    CurrentData = CurrentlyData()
@@ -82,13 +85,13 @@ def ParseCurrently(json):
    curr_data.summary = json['currently']['summary']
    curr_data.wind_speed = int(round(json['currently']['windSpeed']))
    curr_data.wind_bearing = CompassDirection[ (int(json['currently']['windBearing'] + 180 + 22) % 360) / 45 ]
-   curr_data.precip_prob = int(round(json['currently']['precipProbability'] * 100))
+   curr_data.precip_prob = json['currently']['precipProbability'] * 100
    curr_data.precip_intensity = json['currently']['precipIntensity']
    curr_data.cloud_cover = int(round(json['currently']['cloudCover'] * 100))
    curr_data.location = json['timezone']
 
    loc_datetime = datetime.fromtimestamp(json['currently']['time']) + timedelta(hours=int(json['offset'])) 
-   curr_data.time = loc_datetime.strftime('%I:%M%p').lstrip('0').lower()
+   curr_data.time = loc_datetime.strftime('%I:%M %p').lstrip('0').lower()
 
    ShouldAlexRun( curr_data )
 
@@ -99,10 +102,11 @@ def ParseDaily(json):
    for i in range(5):
       day_entry = DayEntry()
 
-      day_entry.temp_min = int(round(json['daily']['data'][i]['temperatureMin']))
-      day_entry.temp_max = int(round(json['daily']['data'][i]['temperatureMax']))
-      day_entry.precip_prob= int(round(json['daily']['data'][i]['precipProbability'] * 100))
       day_entry.icon = json['daily']['data'][i]['icon']
+      day_entry.temp_max = int(round(json['daily']['data'][i]['temperatureMax']))
+      day_entry.temp_min = int(round(json['daily']['data'][i]['temperatureMin']))
+      day_entry.precip_prob= int(round(json['daily']['data'][i]['precipProbability'] * 100))
+      day_entry.wind_speed = int(round(json['currently']['windSpeed']))
       day_entry.summary = json['daily']['data'][i]['summary']
 
       loc_datetime = datetime.fromtimestamp(json['daily']['data'][i]['time']) + timedelta(hours=int(json['offset'])) 
@@ -127,6 +131,7 @@ def ParseHourly(json):
 
       loc_datetime = datetime.fromtimestamp(json['hourly']['data'][i]['time']) + timedelta(hours=int(json['offset'])) 
       hour_entry.time = loc_datetime.strftime('%I%p').lstrip('0').lower()
+      logging.info(json['hourly']['data'][i]['precipProbability'])
 
       HourlyData.append(hour_entry)
 
