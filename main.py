@@ -14,6 +14,7 @@ MAX_TEMP = 74
 MIN_TEMP = 40 
 MAX_WIND = 10
 CLOUD_ADJ_PERCENT = 12
+MAX_RAIN = 50
 
 # Get secret and consumer key from data file
 FILE = open('templates/data.txt', 'r')
@@ -23,18 +24,19 @@ BING_KEY = FILE.readline().strip()
 CompassDirection = [ 'N', 'NE', 'E', 'SE', 'S', 'SW', 'W', 'NW' ]
 
 class CurrentlyData:
-   time = '' 
-   icon = ''
-   temperature = ''
-   summary = ''
-   precip_prob = ''
-   precip_intensity = '' 
-   wind_speed = ''
-   wind_bearing = ''
-   cloud_cover = ''
-   status = ''
-   msg = ''
-   location = ''
+   def __init__(self):
+      self.time = ''
+      self.icon = '' 
+      self.temperature = '' 
+      self.summary = ''
+      self.precip_prob = ''
+      self.precip_intensity = '' 
+      self.wind_speed = ''
+      self.wind_bearing = ''
+      self.cloud_cover = ''
+      self.status = ''
+      self.msg = ''
+      location = ''
 
 class DayEntry:
    icon = ''
@@ -46,25 +48,25 @@ class DayEntry:
    wind_speed = ''
 
 class HourlyEntry:
-   time = ''
-   icon = ''
-   temperature = ''
-   summary = ''
-   precip_prob = ''
-   precip_intensity = '' 
-   wind_speed = ''
-   wind_bearing = ''
-   cloud_cover = ''
-   status = ''
-   msg = ''
+   def __init__(self):
+      self.time = ''
+      self.icon = ''
+      self.temperature = ''
+      self.summary = ''
+      self.precip_prob = ''
+      self.precip_intensity = '' 
+      self.wind_speed = ''
+      self.wind_bearing = ''
+      self.cloud_cover = ''
+      self.status = ''
+      self.msg = ''
 
-DailyData = []
-HourlyData = []
 
 def ShouldAlexRun( entry ):
    mod_temp = entry.temperature - (entry.cloud_cover / CLOUD_ADJ_PERCENT)
 
-   if mod_temp <= MAX_TEMP and mod_temp >= MIN_TEMP and entry.wind_speed < MAX_WIND:
+   if (mod_temp <= MAX_TEMP and mod_temp >= MIN_TEMP and
+       entry.precip_prob < MAX_RAIN and entry.wind_speed < MAX_WIND ):
       entry.status = True
       entry.msg = 'YES'
    else:
@@ -72,7 +74,6 @@ def ShouldAlexRun( entry ):
       entry.msg = 'NO'
 
 def GetWeatherData( latitude, longitude ):
-   CurrentData = CurrentlyData()
    url = "https://api.forecast.io/forecast/"
    latitude = '39.932318'
    longitude = '-104.985907'
@@ -111,6 +112,8 @@ def ParseCurrently(json):
 
 # Parse Daily structure from json
 def ParseDaily(json):
+   DailyData = []
+
    for i in range(DAY_ENTRIES):
       day_entry = DayEntry()
 
@@ -130,6 +133,8 @@ def ParseDaily(json):
 
 # Parse Hourly structure from json
 def ParseHourly(json):
+   HourlyData = []
+
    for i in range(HOUR_ENTRIES):
       hour_entry = HourlyEntry()
 
