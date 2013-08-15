@@ -7,6 +7,14 @@ from datetime import datetime, timedelta
 jinja_environment = jinja2.Environment(
     loader=jinja2.FileSystemLoader(os.path.dirname(__file__)))
 
+#Contants
+DAY_ENTRIES = 5
+HOUR_ENTRIES = 12
+MAX_TEMP = 74
+MIN_TEMP = 40 
+MAX_WIND = 10
+CLOUD_ADJ_PERCENT = 12
+
 # Get secret and consumer key from data file
 FILE = open('templates/data.txt', 'r')
 FORECAST_KEY = FILE.readline().strip()
@@ -54,9 +62,9 @@ DailyData = []
 HourlyData = []
 
 def ShouldAlexRun( entry ):
-   mod_temp = entry.temperature - (entry.cloud_cover / 12)
+   mod_temp = entry.temperature - (entry.cloud_cover / CLOUD_ADJ_PERCENT)
 
-   if mod_temp < 74 and entry.wind_speed < 10:
+   if mod_temp <= MAX_TEMP and mod_temp >= MIN_TEMP and entry.wind_speed < MAX_WIND:
       entry.status = True
       entry.msg = 'YES'
    else:
@@ -76,11 +84,10 @@ def GetWeatherData( latitude, longitude ):
 
    return json_data
 
+# Parse Currently structure from json
 def ParseCurrently(json):
    curr_data = CurrentlyData()
 
-   logging.info(json['currently'])
-   # Parse Currently structure from json
    curr_data.icon = json['currently']['icon']
    curr_data.temperature = int(round(json['currently']['temperature']))
    curr_data.summary = json['currently']['summary']
@@ -88,7 +95,6 @@ def ParseCurrently(json):
    curr_data.precip_prob = int(round(json['currently']['precipProbability'] * 100))
    curr_data.precip_intensity = json['currently']['precipIntensity']
    curr_data.cloud_cover = int(round(json['currently']['cloudCover'] * 100))
-   #curr_data.location = json['timezone']
    curr_data.location = 'Thornton, CO'
 
    try:
@@ -103,9 +109,9 @@ def ParseCurrently(json):
 
    return curr_data
 
+# Parse Daily structure from json
 def ParseDaily(json):
-   # Parse Daily structure from json
-   for i in range(5):
+   for i in range(DAY_ENTRIES):
       day_entry = DayEntry()
 
       day_entry.icon = json['daily']['data'][i]['icon']
@@ -116,15 +122,15 @@ def ParseDaily(json):
       day_entry.summary = json['daily']['data'][i]['summary']
 
       loc_datetime = datetime.fromtimestamp(json['daily']['data'][i]['time']) + timedelta(hours=int(json['offset'])) 
-      day_entry.time = loc_datetime.strftime('%a').lstrip('0').lower()
+      day_entry.time = loc_datetime.strftime('%a').lstrip('0')
 
       DailyData.append(day_entry)
    
    return DailyData
 
+# Parse Hourly structure from json
 def ParseHourly(json):
-   # Parse Hourly structure from json
-   for i in range(12):
+   for i in range(HOUR_ENTRIES):
       hour_entry = HourlyEntry()
 
       hour_entry.icon = json['hourly']['data'][i]['icon']

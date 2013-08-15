@@ -83,15 +83,21 @@ footer {
 }
 
 /* Day styles */
-.day {
+.day_wrapper {
 }
 .day_temp {
    font-size: 2em;
 }
+.day_time {
+   width: 20%;
+}
+.day_summary {
+   padding-top: 0.5em;
+}
 
 /* Pass/Fail styles */
 .pass {
-   background-color: #D6FFD6;
+   background-color: #CEF6CE;
 }
 
 .fail {
@@ -154,6 +160,6 @@ html ul.tabs li.active, html ul.tabs li.active a:hover  { /*--Makes sure that th
  background: #fff;
 }
 .tab_content {
- padding: 20px;
+ padding: 15px;
 }
 

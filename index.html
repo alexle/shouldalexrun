@@ -57,12 +57,12 @@
    <ul class="tabs">
       <li><a href="#tab1">12 Hour</a></li>
       <li><a href="#tab2">5 Day</a></li>
-      <li><a href="#tab3">Menu</a></li>
+      <li><a href="#tab3">About</a></li>
    </ul>
 
    <div class="tab_container">
       <div id="tab1" class="tab_content">
-         <!--Content-->
+         <!--Hourly Content -->
          <div class="table">
          {% for hour in HourlyData %}
          <div class="hour_wrapper">
@@ -90,7 +90,7 @@
          </div>
       </div>
       <div id="tab2" class="tab_content">
-         <!--Content-->
+         <!-- Daily Content -->
          <div class="table">
          {% for day in DailyData %}
          <div class="hour_wrapper">
@@ -106,16 +106,23 @@
                   <div class="tr">{{ day.precip_prob }}%</div>
                </div>
             </div>
+
+            <div class="table">
+               <div class="tr">
+                  <div class="td day_time"></div>
+                  <div class="day_summary">{{ day.summary }}</div>
+               </div>
+            </div>
          </div>
          {% endfor %}
          </div>
       </div>
       <div id="tab3" class="tab_content">
-         <!--Content-->
+         <!-- About Content -->
          <p>Alex likes to run.</p>
          <p>However, he's very picky and only likes to run when the weather is optimal.</p>
          <p>Current tolerance:</p>
-         + Temperature between 40&deg;F and 73&deg;F.<br>
+         + Temperature between 40&deg;F and 74&deg;F.<br>
          + Less than 50% chance of rain.<br>
          + Less than 10mph winds.<br>
          + Each 12% cloud cover reduces temp by 1&deg;.<br>
