@@ -56,7 +56,7 @@ HourlyData = []
 def ShouldAlexRun( entry ):
    mod_temp = entry.temperature - (entry.cloud_cover / 12)
 
-   if mod_temp < 73 and entry.wind_speed < 10:
+   if mod_temp < 74 and entry.wind_speed < 10:
       entry.status = True
       entry.msg = 'YES'
    else:
@@ -79,16 +79,22 @@ def GetWeatherData( latitude, longitude ):
 def ParseCurrently(json):
    curr_data = CurrentlyData()
 
+   logging.info(json['currently'])
    # Parse Currently structure from json
    curr_data.icon = json['currently']['icon']
    curr_data.temperature = int(round(json['currently']['temperature']))
    curr_data.summary = json['currently']['summary']
    curr_data.wind_speed = int(round(json['currently']['windSpeed']))
-   curr_data.wind_bearing = CompassDirection[ (int(json['currently']['windBearing'] + 180 + 22) % 360) / 45 ]
    curr_data.precip_prob = int(round(json['currently']['precipProbability'] * 100))
    curr_data.precip_intensity = json['currently']['precipIntensity']
    curr_data.cloud_cover = int(round(json['currently']['cloudCover'] * 100))
-   curr_data.location = json['timezone']
+   #curr_data.location = json['timezone']
+   curr_data.location = 'Thornton, CO'
+
+   try:
+      curr_data.wind_bearing = CompassDirection[ (int(json['currently']['windBearing'] + 180 + 22) % 360) / 45 ]
+   except:
+      curr_data.wind_bearing = 0
 
    loc_datetime = datetime.fromtimestamp(json['currently']['time']) + timedelta(hours=int(json['offset'])) 
    curr_data.time = loc_datetime.strftime('%I:%M %p').lstrip('0').lower()
@@ -126,11 +132,15 @@ def ParseHourly(json):
       hour_entry.temperature = int(round(json['hourly']['data'][i]['temperature']))
       hour_entry.precip_prob= int(round(json['hourly']['data'][i]['precipProbability'] * 100))
       hour_entry.wind_speed = int(round(json['hourly']['data'][i]['windSpeed']))
-      hour_entry.wind_bearing = CompassDirection[ (int(json['hourly']['data'][i]['windBearing'] + 180 + 22) % 360) / 45 ]
       hour_entry.cloud_cover = int(round(json['hourly']['data'][i]['cloudCover'] * 100))
 
       loc_datetime = datetime.fromtimestamp(json['hourly']['data'][i]['time']) + timedelta(hours=int(json['offset'])) 
       hour_entry.time = loc_datetime.strftime('%I%p').lstrip('0').lower()
+
+      try:
+         hour_entry.wind_bearing = CompassDirection[ (int(json['hourly']['data'][i]['windBearing'] + 180 + 22) % 360) / 45 ]
+      except:
+         hour_entry.wind_bearing = 0
 
       HourlyData.append(hour_entry)
 

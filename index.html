@@ -2,8 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="viewport" content="user-scalable = yes">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
     <meta name="author" content="Alex Le">
     <meta name="description" content="Should Alex Run">
 
@@ -17,9 +16,6 @@
 </head>
 
 <body onload="LoadSkyCon()">
-   <nav>
-   </nav>
-         
    <header>
    <h2>Should Alex go for a run? {% if CurrentData.status == False %}<span style="color:red">{{ CurrentData.msg }}{% else %}<span style="color:green">{{ CurrentData.msg }}</span>{% endif %}</h2>
    </header>
@@ -118,12 +114,11 @@
          <!--Content-->
          <p>Alex likes to run.</p>
          <p>However, he's very picky and only likes to run when the weather is optimal.</p>
-
-         Temperature:
-
-         Rain:
-
-         Wind:
+         <p>Current tolerance:</p>
+         + Temperature between 40&deg;F and 73&deg;F.<br>
+         + Less than 50% chance of rain.<br>
+         + Less than 10mph winds.<br>
+         + Each 12% cloud cover reduces temp by 1&deg;.<br>
       </div>
    </div>
    </article>
