@@ -11,6 +11,15 @@ header {
 }
 footer {
 }
+a:link, a:visited {
+   color: #0084B4;
+   cursor: hand;
+   text-decoration: none;
+}
+a:hover {
+   color: #333;
+   text-decoration: none;
+}
 
 ::-webkit-scrollbar {
     display: none;

@@ -7,7 +7,7 @@ from datetime import datetime, timedelta
 jinja_environment = jinja2.Environment(
     loader=jinja2.FileSystemLoader(os.path.dirname(__file__)))
 
-#Contants
+# Constants
 DAY_ENTRIES = 5
 HOUR_ENTRIES = 12
 MAX_TEMP = 74
@@ -36,7 +36,6 @@ class CurrentlyData:
       self.cloud_cover = ''
       self.status = ''
       self.msg = ''
-      location = ''
 
 class DayEntry:
    icon = ''
@@ -61,6 +60,44 @@ class HourlyEntry:
       self.status = ''
       self.msg = ''
 
+class GeocodeInfo:
+   latitude = ''
+   longitude = ''
+   address = ''
+   zipcode = ''
+   state = ''
+   locality = ''
+
+def GetGeocodeData( ):
+   url = "http://dev.virtualearth.net/REST/v1/Locations?"
+
+   s = []
+   s.append(url)
+   s.append("CountryRegion=" + "US")
+   s.append("&adminDistrict=" + "CO")
+   s.append("&locality=" + "Somewhere")
+   s.append("&postalCode=" + "80241")
+   s.append("&addressLine=" + "13001%Grant%Cir")
+   s.append("&key=" + BING_KEY)
+   full_url = ''.join(s)
+
+   data = urlfetch.fetch(full_url, deadline=10).content
+   json_data = json.loads(data)
+   logging.info(json_data)
+
+   return json_data
+
+def ParseGeocode( json ):
+
+   geo = GeocodeInfo()
+
+   geo.latitude = '39.932318'
+   geo.longitude = '-104.985907'
+   geo.zipcode = '80241'
+   geo.locality = 'Thornton'
+   geo.state = 'CO'
+
+   return geo
 
 def ShouldAlexRun( entry ):
    mod_temp = entry.temperature - (entry.cloud_cover / CLOUD_ADJ_PERCENT)
@@ -73,12 +110,10 @@ def ShouldAlexRun( entry ):
       entry.status = False 
       entry.msg = 'NO'
 
-def GetWeatherData( latitude, longitude ):
+def GetWeatherData( geo ):
    url = "https://api.forecast.io/forecast/"
-   latitude = '39.932318'
-   longitude = '-104.985907'
 
-   full_url = url + FORECAST_KEY + '/' + latitude + ',' + longitude + '?exclude=alerts,flags'
+   full_url = url + FORECAST_KEY + '/' + geo.latitude + ',' + geo.longitude + '?exclude=minutely,alerts,flags'
 
    data = urlfetch.fetch(full_url, deadline=10).content
    json_data = json.loads(data)
@@ -90,13 +125,12 @@ def ParseCurrently(json):
    curr_data = CurrentlyData()
 
    curr_data.icon = json['currently']['icon']
-   curr_data.temperature = int(round(json['currently']['temperature']))
+   curr_data.temperature = int(round(json['currently']['apparentTemperature']))
    curr_data.summary = json['currently']['summary']
    curr_data.wind_speed = int(round(json['currently']['windSpeed']))
    curr_data.precip_prob = int(round(json['currently']['precipProbability'] * 100))
    curr_data.precip_intensity = json['currently']['precipIntensity']
    curr_data.cloud_cover = int(round(json['currently']['cloudCover'] * 100))
-   curr_data.location = 'Thornton, CO'
 
    try:
       curr_data.wind_bearing = CompassDirection[ (int(json['currently']['windBearing'] + 180 + 22) % 360) / 45 ]
@@ -140,7 +174,7 @@ def ParseHourly(json):
 
       hour_entry.icon = json['hourly']['data'][i]['icon']
       hour_entry.summary = json['hourly']['data'][i]['summary']
-      hour_entry.temperature = int(round(json['hourly']['data'][i]['temperature']))
+      hour_entry.temperature = int(round(json['hourly']['data'][i]['apparentTemperature']))
       hour_entry.precip_prob= int(round(json['hourly']['data'][i]['precipProbability'] * 100))
       hour_entry.wind_speed = int(round(json['hourly']['data'][i]['windSpeed']))
       hour_entry.cloud_cover = int(round(json['hourly']['data'][i]['cloudCover'] * 100))
@@ -162,7 +196,11 @@ def ParseHourly(json):
 class MainHandler(webapp2.RequestHandler):
    def get(self):
 
-      json = GetWeatherData(None, None)
+      g_json = GetGeocodeData( )
+
+      GeocodeData = ParseGeocode(g_json)
+
+      json = GetWeatherData(GeocodeData)
 
       CurrentData = ParseCurrently(json)
       DailyData = ParseDaily(json)
@@ -172,6 +210,7 @@ class MainHandler(webapp2.RequestHandler):
          'CurrentData': CurrentData,
          'DailyData': DailyData,
          'HourlyData': HourlyData,
+         'GeocodeData': GeocodeData,
       }
       
       template = jinja_environment.get_template('index.html')

@@ -1,0 +1,179 @@
+http://dev.virtualearth.net/REST/v1/Locations/US/WA/98052/Redmond/1%20Microsoft%20Way?o=xml&key=BingMapsKey
+
+
+http://dev.virtualearth.net/REST/v1/Locations/US/WA/Redmond/1%20Microsoft%20Way?output=xml&key=BingMapsKey
+
+http://dev.virtualearth.net/REST/v1/Locations/US/-/-/-?key=BingMapsKey
+
+http://dev.virtualearth.net/REST/v1/Locations?CountryRegion=US&adminDistrict=WA&locality=Somewhere&postalCode=98001&addressLine=100%20Main%20St.&key=BingMapsKey
+
+http://dev.virtualearth.net/REST/v1/Locations?culture=en-GB&addressLine=Kings%20Road&o=xml&userLocation=51.504360719046616,-0.12600176611298197&key=BingMapsKey
+
+
+http://dev.virtualearth.net/REST/v1/Locations/US/CO/80241/-?key=BingMapsKey
+{
+"authenticationResultCode":"ValidCredentials",
+"brandLogoUri":"http:\/\/dev.virtualearth.net\/Branding\/logo_powered_by.png",
+"copyright":"Copyright © 2013 Microsoft and its suppliers. All rights reserved. This API cannot be accessed and the content and any results may not be used, reproduced or transmitted in any manner without express written permission from Microsoft Corporation.",
+"resourceSets":
+[
+   {
+      "estimatedTotal":5,
+      "resources":
+      [
+         {
+            "__type":"Location:http:\/\/schemas.microsoft.com\/search\/local\/ws\/rest\/v1",
+            "bbox":
+            [
+               36.991294860839844,
+               -109.06038665771484,
+               41.0136604309082,
+               -102.04154205322266
+            ],
+            "name":"Colorado",
+            "point":
+            {
+               "type":"Point",
+               "coordinates":
+               [
+                  38.998550415039062,
+                  -105.54782867431641
+               ]
+            },
+            "address":
+            {
+               "adminDistrict":"CO",
+               "countryRegion":"United States",
+               "formattedAddress":"Colorado"
+            },
+               "confidence":"Medium",
+               "entityType":"AdminDivision1",
+               "geocodePoints":
+               [
+                  {
+                     "type":"Point",
+                     "coordinates":
+                     [
+                        38.998550415039062,
+                        -105.54782867431641
+                     ],
+                     "calculationMethod":"Rooftop",
+                     "usageTypes":["Display"]
+                  }
+               ],
+               "matchCodes":["Good","UpHierarchy"]
+         },
+         {
+            "__type":"Location:http:\/\/schemas.microsoft.com\/search\/local\/ws\/rest\/v1",
+            "bbox":
+            [
+               40.691593170166016,
+               -78.376708984375,
+               41.25286865234375,
+               -77.14361572265625
+            ],
+            "name":"Centre",
+            "point":
+            {
+               "type":"Point",
+               "coordinates":
+               [
+                  40.919040679931641,
+                  -77.819633483886719
+               ]
+            },
+            "address":
+            {
+               "adminDistrict":"PA",
+               "adminDistrict2":"Centre Co.",
+               "countryRegion":"United States",
+               "formattedAddress":"Centre"},
+               "confidence":"Medium",
+               "entityType":"AdminDivision2",
+               "geocodePoints":
+               [
+                  {
+                     "type":"Point",
+                     "coordinates":
+                     [
+                        40.919040679931641,
+                        -77.819633483886719
+                     ],
+                     "calculationMethod":"Rooftop",
+                     "usageTypes":["Display"]
+                  }
+               ],
+               "matchCodes":["Good","UpHierarchy"]
+         },
+         {
+            "__type":"Location:http:\/\/schemas.microsoft.com\/search\/local\/ws\/rest\/v1","bbox":[39.684040069580078,-106.65290832519531,40.486301422119141,-105.62609100341797],"name":"Grand","point":{"type":"Point","coordinates":[40.102619171142578,-106.11837005615234]},"address":{"adminDistrict":"CO","adminDistrict2":"Grand Co.","countryRegion":"United States","formattedAddress":"Grand"},"confidence":"Medium","entityType":"AdminDivision2","geocodePoints":[{"type":"Point","coordinates":[40.102619171142578,-106.11837005615234],"calculationMethod":"Rooftop","usageTypes":["Display"]}],"matchCodes":["Good","UpHierarchy"]
+         },
+         {
+            "__type":"Location:http:\/\/schemas.microsoft.com\/search\/local\/ws\/rest\/v1","bbox":[38.499870300292969,-110.17936706542969,39.499828338623047,-109.05078125],"name":"Grand","point":{"type":"Point","coordinates":[38.981731414794922,-109.57111358642578]},"address":{"adminDistrict":"UT","adminDistrict2":"Grand Co.","countryRegion":"United States","formattedAddress":"Grand"},"confidence":"Medium","entityType":"AdminDivision2","geocodePoints":[{"type":"Point","coordinates":[38.981731414794922,-109.57111358642578],"calculationMethod":"Rooftop","usageTypes":["Display"]}],"matchCodes":["Good","UpHierarchy"]
+         },
+         {
+            "__type":"Location:http:\/\/schemas.microsoft.com\/search\/local\/ws\/rest\/v1","bbox":[31.538509368896484,-81.981552124023438,32.014827728271484,-81.491783142089844],"name":"Long","point":{"type":"Point","coordinates":[31.752790451049805,-81.746009826660156]},"address":{"adminDistrict":"GA","adminDistrict2":"Long Co.","countryRegion":"United States","formattedAddress":"Long"},"confidence":"Medium","entityType":"AdminDivision2","geocodePoints":[{"type":"Point","coordinates":[31.752790451049805,-81.746009826660156],"calculationMethod":"Rooftop","usageTypes":["Display"]}],"matchCodes":["Good","UpHierarchy"]
+         }
+      ]
+   }
+]
+,"statusCode":200,"statusDescription":"OK","traceId":"f7bcf661de174d02977d33d7f5b455fa|BAYM000010|02.00.161.1800|BY2MSNVM000037"}
+
+
+
+
+
+
+http://dev.virtualearth.net/REST/v1/Locations?CountryRegion=US&adminDistrict=WA&locality=Somewhere&postalCode=98001&addressLine=100%20Main%20St.&key=BingMapsKey
+{
+   "authenticationResultCode":"ValidCredentials",
+   "brandLogoUri":"http:\/\/dev.virtualearth.net\/Branding\/logo_powered_by.png",
+   "copyright":"Copyright © 2013 Microsoft and its suppliers. All rights reserved. This API cannot be accessed and the content and any results may not be used, reproduced or transmitted in any manner without express written permission from Microsoft Corporation.",
+   "resourceSets":
+   [
+      {
+         "estimatedTotal":1,
+         "resources":
+         [
+            {
+               "__type":"Location:http:\/\/schemas.microsoft.com\/search\/local\/ws\/rest\/v1",
+               "bbox":[45.543731689453125,-124.79074859619141,49.002490997314453,-116.91355895996094],
+               "name":"Washington",
+               "point":
+               {
+                  "type":"Point",
+                  "coordinates":[47.41241455078125,-120.58436584472656]
+               },
+               "address":
+               {
+                  "adminDistrict":"WA",
+                  "countryRegion":"United States",
+                  "formattedAddress":"Washington"
+               },
+               "confidence":"Medium",
+               "entityType":"AdminDivision1",
+               "geocodePoints":
+               [
+                  {
+                     "type":"Point",
+                     "coordinates":[47.41241455078125,-120.58436584472656],"
+                     calculationMethod":"Rooftop",
+                     "usageTypes":["Display"]
+                  }
+               ],"matchCodes":["Good","UpHierarchy"]
+            }
+         ]
+      }
+   ],
+   "statusCode":200,
+   "statusDescription":"OK",
+   "traceId":"d6e4084d91f34803b56a3fbaa890411c|BAYM000018|02.00.161.1800|BY2MSNVM000018, BY2IPEVM000028, BY2MSNVM001086"
+}
+
+
+http://dev.virtualearth.net/REST/v1/Locations?CountryRegion=US&adminDistrict=WA&locality=Somewhere&postalCode=98001&&key=AsPxjqGYt0rekEph32DOMGyt39n5TB5cc5-WigiFJ-x0uLOl_l0dOY1KaGbqPTxX
+{
+   "authenticationResultCode":"ValidCredentials",
+   "brandLogoUri":"http:\/\/dev.virtualearth.net\/Branding\/logo_powered_by.png","copyright":"Copyright © 2013 Microsoft and its suppliers. All rights reserved. This API cannot be accessed and the content and any results may not be used, reproduced or transmitted in any manner without express written permission from Microsoft Corporation.",
+   "resourceSets":[{"estimatedTotal":1,"resources":[{"__type":"Location:http:\/\/schemas.microsoft.com\/search\/local\/ws\/rest\/v1","bbox":[45.568096160888672,-124.92208862304688,49.031902313232422,-116.65791320800781],"name":"Washington","point":{"type":"Point","coordinates":[47.411869049072266,-120.58416748046875]},"address":{"adminDistrict":"WA","countryRegion":"United States","formattedAddress":"Washington"},"confidence":"Medium","entityType":"AdminDivision1","geocodePoints":[{"type":"Point","coordinates":[47.411869049072266,-120.58416748046875],"calculationMethod":"Rooftop","usageTypes":["Display"]}],"matchCodes":["Good","UpHierarchy"]}]}],"statusCode":200,"statusDescription":"OK","traceId":"9bd3852d29074624afff99ca9c117396|BAYM000162|02.00.161.1800|BY2MSNVM000035"
+}
