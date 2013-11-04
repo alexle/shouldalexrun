@@ -10,6 +10,7 @@ http://dev.virtualearth.net/REST/v1/Locations?CountryRegion=US&adminDistrict=WA&
 http://dev.virtualearth.net/REST/v1/Locations?culture=en-GB&addressLine=Kings%20Road&o=xml&userLocation=51.504360719046616,-0.12600176611298197&key=BingMapsKey
 
 
+structured
 http://dev.virtualearth.net/REST/v1/Locations/US/CO/80241/-?key=BingMapsKey
 {
 "authenticationResultCode":"ValidCredentials",
@@ -123,7 +124,7 @@ http://dev.virtualearth.net/REST/v1/Locations/US/CO/80241/-?key=BingMapsKey
 
 
 
-
+Unstructured
 http://dev.virtualearth.net/REST/v1/Locations?CountryRegion=US&adminDistrict=WA&locality=Somewhere&postalCode=98001&addressLine=100%20Main%20St.&key=BingMapsKey
 {
    "authenticationResultCode":"ValidCredentials",
@@ -175,5 +176,22 @@ http://dev.virtualearth.net/REST/v1/Locations?CountryRegion=US&adminDistrict=WA&
 {
    "authenticationResultCode":"ValidCredentials",
    "brandLogoUri":"http:\/\/dev.virtualearth.net\/Branding\/logo_powered_by.png","copyright":"Copyright © 2013 Microsoft and its suppliers. All rights reserved. This API cannot be accessed and the content and any results may not be used, reproduced or transmitted in any manner without express written permission from Microsoft Corporation.",
-   "resourceSets":[{"estimatedTotal":1,"resources":[{"__type":"Location:http:\/\/schemas.microsoft.com\/search\/local\/ws\/rest\/v1","bbox":[45.568096160888672,-124.92208862304688,49.031902313232422,-116.65791320800781],"name":"Washington","point":{"type":"Point","coordinates":[47.411869049072266,-120.58416748046875]},"address":{"adminDistrict":"WA","countryRegion":"United States","formattedAddress":"Washington"},"confidence":"Medium","entityType":"AdminDivision1","geocodePoints":[{"type":"Point","coordinates":[47.411869049072266,-120.58416748046875],"calculationMethod":"Rooftop","usageTypes":["Display"]}],"matchCodes":["Good","UpHierarchy"]}]}],"statusCode":200,"statusDescription":"OK","traceId":"9bd3852d29074624afff99ca9c117396|BAYM000162|02.00.161.1800|BY2MSNVM000035"
+   "resourceSets":
+   [
+      {
+         "estimatedTotal":1,
+         "resources":
+         [
+            {"__type":"Location:http:\/\/schemas.microsoft.com\/search\/local\/ws\/rest\/v1",
+            "bbox":
+            [
+               45.568096160888672,-124.92208862304688,49.031902313232422,-116.65791320800781
+            ],
+            "name":"Washington","point":{"type":"Point","coordinates":[47.411869049072266,-120.58416748046875]},"address":{"adminDistrict":"WA","countryRegion":"United States","formattedAddress":"Washington"},"confidence":"Medium","entityType":"AdminDivision1","geocodePoints":[{"type":"Point","coordinates":[47.411869049072266,-120.58416748046875],"calculationMethod":"Rooftop","usageTypes":["Display"]}],"matchCodes":["Good","UpHierarchy"]}
+         ]
+      }
+   ],
+   "statusCode":200,
+   "statusDescription":"OK",
+   "traceId":"9bd3852d29074624afff99ca9c117396|BAYM000162|02.00.161.1800|BY2MSNVM000035"
 }

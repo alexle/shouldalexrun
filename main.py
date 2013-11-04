@@ -11,10 +11,11 @@ jinja_environment = jinja2.Environment(
 DAY_ENTRIES = 5
 HOUR_ENTRIES = 12
 MAX_TEMP = 74
-MIN_TEMP = 40 
-MAX_WIND = 10
-CLOUD_ADJ_PERCENT = 12
-MAX_RAIN = 50
+MIN_TEMP = 38 
+MAX_WIND = 12
+CLOUD_ADJ_PERCENT = 10
+MAX_RAIN = 40 
+DEFAULT_ZIPCODE = '80241'
 
 # Get secret and consumer key from data file
 FILE = open('templates/data.txt', 'r')
@@ -63,49 +64,68 @@ class HourlyEntry:
 class GeocodeInfo:
    latitude = ''
    longitude = ''
-   address = ''
-   zipcode = ''
-   state = ''
-   locality = ''
+   form_addr = ''
 
-def GetGeocodeData( ):
+class InputLocation:
+   city = ''
+   state = ''
+   country = ''
+   zipcode = ''
+
+def GetGeocodeData( loc ):
    url = "http://dev.virtualearth.net/REST/v1/Locations?"
+
+   loc.country = ''
+   loc.zipcode = ''
 
    s = []
    s.append(url)
-   s.append("CountryRegion=" + "US")
-   s.append("&adminDistrict=" + "CO")
-   s.append("&locality=" + "Somewhere")
-   s.append("&postalCode=" + "80241")
+   s.append("CountryRegion=" + loc.country) 
+   s.append("&adminDistrict=" + loc.state)
+   s.append("&locality=" + loc.city)
+   s.append("&postalCode=" + loc.zipcode)
    s.append("&addressLine=" + "13001%Grant%Cir")
    s.append("&key=" + BING_KEY)
    full_url = ''.join(s)
 
    data = urlfetch.fetch(full_url, deadline=10).content
    json_data = json.loads(data)
-   logging.info(json_data)
 
    return json_data
 
-def ParseGeocode( json ):
+def ParseGeocodeData( json ):
 
+   # Fill out geocode structure from Bing results
    geo = GeocodeInfo()
 
-   geo.latitude = '39.932318'
-   geo.longitude = '-104.985907'
-   geo.zipcode = '80241'
-   geo.locality = 'Thornton'
-   geo.state = 'CO'
+   geo.latitude = str(json['resourceSets'][0]['resources'][0]['point']['coordinates'][0])
+   geo.longitude = str(json['resourceSets'][0]['resources'][0]['point']['coordinates'][1])
+   geo.format_addr = json['resourceSets'][0]['resources'][0]['address']['formattedAddress']
+   logging.info('+++++++')
+   logging.info(json['resourceSets'][0]['resources'][0]['address'])
+
+   logging.info(geo.latitude)
+   logging.info(geo.longitude)
 
    return geo
 
-def ShouldAlexRun( entry ):
-   mod_temp = entry.temperature - (entry.cloud_cover / CLOUD_ADJ_PERCENT)
 
-   if (mod_temp <= MAX_TEMP and mod_temp >= MIN_TEMP and
-       entry.precip_prob < MAX_RAIN and entry.wind_speed < MAX_WIND ):
+def ShouldAlexRun( entry ):
+
+   # Allow cloud adjustment if If temperature is greater than max 
+   if entry.temperature > MAX_TEMP:
+      mod_temp = entry.temperature - (entry.cloud_cover / CLOUD_ADJ_PERCENT)
+   else:
+      mod_temp = entry.temperature
+
+   if ( mod_temp <= MAX_TEMP and
+        mod_temp >= MIN_TEMP and
+        entry.precip_prob < MAX_RAIN and
+        entry.wind_speed < MAX_WIND ):
+
       entry.status = True
       entry.msg = 'YES'
+
    else:
       entry.status = False 
       entry.msg = 'NO'
@@ -196,9 +216,21 @@ def ParseHourly(json):
 class MainHandler(webapp2.RequestHandler):
    def get(self):
 
-      g_json = GetGeocodeData( )
+      loc = InputLocation()
+      #loc.zipcode = self.request.get('zipcode')
+      loc.city = self.request.get('input_city')
+      loc.state = self.request.get('input_state')
 
-      GeocodeData = ParseGeocode(g_json)
+      if loc.zipcode == '':
+         loc.zipcode = DEFAULT_ZIPCODE
+      if loc.city == '':
+         loc.city = 'Thornton' 
+      if loc.state == '':
+         loc.state = 'CO'
+
+      g_json = GetGeocodeData(loc)
+
+      GeocodeData = ParseGeocodeData(g_json)
 
       json = GetWeatherData(GeocodeData)
 

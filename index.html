@@ -30,7 +30,7 @@
       <div class="table">
          <div class="tr">
             <div class="td detail_left">{{ CurrentData.time }}</div>
-            <div class="td detail_right">{{ GeocodeData.locality }}, {{ GeocodeData.state }}</div>
+            <div class="td detail_right">{{ GeocodeData.format_addr}}</div>
          </div>
       </div>
       <div class="curr_top">
@@ -128,15 +128,17 @@
          <p><a href="http://alexanderle.com/" target="_blank" class="lnk">Alex</a> likes to run.</p>
          <p>However, he's very picky and only likes to run when the weather is optimal.</p>
          <p>Current tolerance:</p>
-         + Temperature between 40&deg;F and 74&deg;F.<br>
-         + Less than 50% chance of rain.<br>
-         + Less than 10mph winds.<br>
-         + Each 12% cloud cover reduces temp by 1&deg;.<br>
+         + Temperature between 38&deg;F and 74&deg;F.<br>
+         + Less than 40% chance of rain.<br>
+         + Less than 12mph winds.<br>
+         + Each 10% cloud cover reduces temp by 1&deg;.<br>
       </div>
       <div id="tab4" class="tab_content">
          <!-- Settings Content -->
-         <form>
-            <input type="text" pattern="[0-9]*" name="zipcode" value="Zip Code">
+         <form id="zip_form" method="get">
+            <!--<input type="text" pattern="[0-9]*" name="zipcode" value="Zip Code" onfocus="this.value=''">-->
+            <input type="text" name="input_city" value="City" onfocus="this.value=''"><br>
+            <input type="text" name="input_state" value="State" onfocus="this.value=''">
             <input type="submit" value="Submit">
          </form>
       </div>
