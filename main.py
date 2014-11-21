@@ -7,15 +7,17 @@ from datetime import datetime, timedelta
 jinja_environment = jinja2.Environment(
     loader=jinja2.FileSystemLoader(os.path.dirname(__file__)))
 
-# Constants
-DAY_ENTRIES = 5
-HOUR_ENTRIES = 12
-MAX_TEMP = 74
-MIN_TEMP = 38 
-MAX_WIND = 12
-CLOUD_ADJ_PERCENT = 10
-MAX_RAIN = 40 
 DEFAULT_ZIPCODE = '80241'
+
+# Constants
+class Constants:
+   DayEntries = 5
+   HourEntries = 24 
+   MaxTemp = 78
+   MinTemp = 34
+   MaxWind = 12
+   MaxRain = 40
+   CloudAdjustPercent = 10
 
 # Get secret and consumer key from data file
 FILE = open('templates/data.txt', 'r')
@@ -112,16 +114,16 @@ def ParseGeocodeData( json ):
 
 def ShouldAlexRun( entry ):
 
-   # Allow cloud adjustment if If temperature is greater than max 
-   if entry.temperature > MAX_TEMP:
-      mod_temp = entry.temperature - (entry.cloud_cover / CLOUD_ADJ_PERCENT)
+   # Allow cloud adjustment if temperature is greater than max 
+   if entry.temperature > Constants.MaxTemp:
+      mod_temp = entry.temperature - (entry.cloud_cover / Constants.CloudAdjustPercent)
    else:
       mod_temp = entry.temperature
 
-   if ( mod_temp <= MAX_TEMP and
-        mod_temp >= MIN_TEMP and
-        entry.precip_prob < MAX_RAIN and
-        entry.wind_speed < MAX_WIND ):
+   if ( mod_temp <= Constants.MaxTemp and
+        mod_temp >= Constants.MinTemp and
+        entry.precip_prob < Constants.MaxRain and
+        entry.wind_speed < Constants.MaxWind ):
 
       entry.status = True
       entry.msg = 'YES'
@@ -168,7 +170,7 @@ def ParseCurrently(json):
 def ParseDaily(json):
    DailyData = []
 
-   for i in range(DAY_ENTRIES):
+   for i in range(Constants.DayEntries):
       day_entry = DayEntry()
 
       day_entry.icon = json['daily']['data'][i]['icon']
@@ -189,7 +191,7 @@ def ParseDaily(json):
 def ParseHourly(json):
    HourlyData = []
 
-   for i in range(HOUR_ENTRIES):
+   for i in range(Constants.HourEntries):
       hour_entry = HourlyEntry()
 
       hour_entry.icon = json['hourly']['data'][i]['icon']
@@ -243,6 +245,7 @@ class MainHandler(webapp2.RequestHandler):
          'DailyData': DailyData,
          'HourlyData': HourlyData,
          'GeocodeData': GeocodeData,
+         'Constants': Constants,
       }
       
       template = jinja_environment.get_template('index.html')

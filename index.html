@@ -36,6 +36,7 @@
    <h2>Should Alex go for a run? {% if CurrentData.status == False %}<span style="color:red">{{ CurrentData.msg }}{% else %}<span style="color:green">{{ CurrentData.msg }}</span>{% endif %}</h2>
    </header>
 
+   <!--Currently Content -->
    <article>
    <div class="curr_wrapper">
       <div class="table">
@@ -71,12 +72,13 @@
 
    <article>
    <ul class="tabs">
-      <li><a href="#tab1">12 Hour</a></li>
-      <li><a href="#tab2">5 Day</a></li>
+      <li><a href="#tab1">{{ Constants.HourEntries }} Hour</a></li>
+      <li><a href="#tab2">{{ Constants.DayEntries }} Day</a></li>
       <li><a href="#tab3">About</a></li>
       <li><a href="#tab4">Settings</a></li>
    </ul>
 
+   <!-- Tab Content -->
    <div class="tab_container">
       <div id="tab1" class="tab_content">
          <!--Hourly Content -->
@@ -139,9 +141,9 @@
          <p><a href="http://alexanderle.com/" target="_blank" class="lnk">Alex</a> likes to run.</p>
          <p>However, he's very picky and only likes to run when the weather is optimal.</p>
          <p>Current tolerance:</p>
-         + Temperature between 38&deg;F and 74&deg;F.<br>
-         + Less than 40% chance of rain.<br>
-         + Less than 12mph winds.<br>
+         + Temperature between {{ Constants.MinTemp }}&deg;F and {{ Constants.MaxTemp }}&deg;F.<br>
+         + Less than {{ Constants.MaxRain }}% chance of rain.<br>
+         + Less than {{ Constants.MaxWind }} mph winds.<br>
          + Each 10% cloud cover reduces temp by 1&deg;.<br>
       </div>
       <div id="tab4" class="tab_content">
