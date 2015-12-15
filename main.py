@@ -11,7 +11,7 @@ DEFAULT_ZIPCODE = '80241'
 
 # Constants
 class Constants:
-   DayEntries = 5
+   DayEntries = 7
    HourEntries = 24
    MaxTemp = 78
    MinTemp = 32
