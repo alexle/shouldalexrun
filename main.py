@@ -12,9 +12,9 @@ DEFAULT_ZIPCODE = '80241'
 # Constants
 class Constants:
    DayEntries = 5
-   HourEntries = 24 
+   HourEntries = 24
    MaxTemp = 78
-   MinTemp = 34
+   MinTemp = 32
    MaxWind = 12
    MaxRain = 40
    CloudAdjustPercent = 10
@@ -29,11 +29,11 @@ CompassDirection = [ 'N', 'NE', 'E', 'SE', 'S', 'SW', 'W', 'NW' ]
 class CurrentlyData:
    def __init__(self):
       self.time = ''
-      self.icon = '' 
-      self.temperature = '' 
+      self.icon = ''
+      self.temperature = ''
       self.summary = ''
       self.precip_prob = ''
-      self.precip_intensity = '' 
+      self.precip_intensity = ''
       self.wind_speed = ''
       self.wind_bearing = ''
       self.cloud_cover = ''
@@ -56,7 +56,7 @@ class HourlyEntry:
       self.temperature = ''
       self.summary = ''
       self.precip_prob = ''
-      self.precip_intensity = '' 
+      self.precip_intensity = ''
       self.wind_speed = ''
       self.wind_bearing = ''
       self.cloud_cover = ''
@@ -82,7 +82,7 @@ def GetGeocodeData( loc ):
 
    s = []
    s.append(url)
-   s.append("CountryRegion=" + loc.country) 
+   s.append("CountryRegion=" + loc.country)
    s.append("&adminDistrict=" + loc.state)
    s.append("&locality=" + loc.city)
    s.append("&postalCode=" + loc.zipcode)
@@ -114,7 +114,7 @@ def ParseGeocodeData( json ):
 
 def ShouldAlexRun( entry ):
 
-   # Allow cloud adjustment if temperature is greater than max 
+   # Allow cloud adjustment if temperature is greater than max
    if entry.temperature > Constants.MaxTemp:
       mod_temp = entry.temperature - (entry.cloud_cover / Constants.CloudAdjustPercent)
    else:
@@ -129,7 +129,7 @@ def ShouldAlexRun( entry ):
       entry.msg = 'YES'
 
    else:
-      entry.status = False 
+      entry.status = False
       entry.msg = 'NO'
 
 def GetWeatherData( geo ):
@@ -159,7 +159,7 @@ def ParseCurrently(json):
    except:
       curr_data.wind_bearing = 0
 
-   loc_datetime = datetime.fromtimestamp(json['currently']['time']) + timedelta(hours=int(json['offset'])) 
+   loc_datetime = datetime.fromtimestamp(json['currently']['time']) + timedelta(hours=int(json['offset']))
    curr_data.time = loc_datetime.strftime('%I:%M %p').lstrip('0').lower()
 
    ShouldAlexRun( curr_data )
@@ -180,11 +180,11 @@ def ParseDaily(json):
       day_entry.wind_speed = int(round(json['currently']['windSpeed']))
       day_entry.summary = json['daily']['data'][i]['summary']
 
-      loc_datetime = datetime.fromtimestamp(json['daily']['data'][i]['time']) + timedelta(hours=int(json['offset'])) 
+      loc_datetime = datetime.fromtimestamp(json['daily']['data'][i]['time']) + timedelta(hours=int(json['offset']))
       day_entry.time = loc_datetime.strftime('%a').lstrip('0')
 
       DailyData.append(day_entry)
-   
+
    return DailyData
 
 # Parse Hourly structure from json
@@ -201,7 +201,7 @@ def ParseHourly(json):
       hour_entry.wind_speed = int(round(json['hourly']['data'][i]['windSpeed']))
       hour_entry.cloud_cover = int(round(json['hourly']['data'][i]['cloudCover'] * 100))
 
-      loc_datetime = datetime.fromtimestamp(json['hourly']['data'][i]['time']) + timedelta(hours=int(json['offset'])) 
+      loc_datetime = datetime.fromtimestamp(json['hourly']['data'][i]['time']) + timedelta(hours=int(json['offset']))
       hour_entry.time = loc_datetime.strftime('%I%p').lstrip('0').lower()
 
       try:
@@ -226,7 +226,7 @@ class MainHandler(webapp2.RequestHandler):
       if loc.zipcode == '':
          loc.zipcode = DEFAULT_ZIPCODE
       if loc.city == '':
-         loc.city = 'Thornton' 
+         loc.city = 'Thornton'
       if loc.state == '':
          loc.state = 'CO'
 
@@ -247,7 +247,7 @@ class MainHandler(webapp2.RequestHandler):
          'GeocodeData': GeocodeData,
          'Constants': Constants,
       }
-      
+
       template = jinja_environment.get_template('index.html')
       self.response.out.write( template.render( template_values ) )
 

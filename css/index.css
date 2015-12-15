@@ -1,16 +1,20 @@
 body {
    font-family: "Raleway", serif;
 }
+
 header, article, footer {
    width: 23em;
    margin: auto;
    padding-left: 0.6em;
    padding-right: 0.6em;
 }
+
 header {
 }
+
 footer {
 }
+
 a:link, a:visited {
    color: #0084B4;
    cursor: hand;
@@ -35,7 +39,7 @@ a:hover {
 }
 .td {
    display: table-cell;
-   width: 100px; 
+   width: 100px;
 }
 
 /* Current styles */
@@ -171,4 +175,3 @@ html ul.tabs li.active, html ul.tabs li.active a:hover  { /*--Makes sure that th
 .tab_content {
  padding: 15px;
 }
-
